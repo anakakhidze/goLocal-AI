@@ -35,3 +35,5 @@ Signed (a commit from each member on this file counts as a signature).
 - Archil Sanikidze — Signed
 - Ana Kahidze —
 - Nino Tsutskiridze — Signed
+- Ana Kahidze — Signed
+- Nino Tsutskiridze —
