@@ -33,5 +33,5 @@ Step 1: name the issue inside the team within 48 hours. Step 2: if it remains un
 Signed (a commit from each member on this file counts as a signature).
 
 - Archil Sanikidze — Signed
-- Ana Kahidze —
+- Ana Kahidze — Signed
 - Nino Tsutskiridze —
