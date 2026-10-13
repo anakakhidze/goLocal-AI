@@ -20,6 +20,7 @@ AI coding agents work on a planned local discovery application for people across
 
 ## Always
 
+- Before creating or editing any repository file, agree on the exact file-by-file changes and every substantive detail with the person requesting the work. Do not write drafts into files, stage, commit, or push changes before that person's explicit approval.
 - Read `docs/spec.md` and relevant existing files, then propose a small plan and wait for human approval before implementation.
 - Keep changes within the approved slice; inspect existing patterns before adding abstractions or refactoring other work.
 - Add or update relevant tests, run the verified test command when one exists, and report the actual result or why verification was unavailable.
