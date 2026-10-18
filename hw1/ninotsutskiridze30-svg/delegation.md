@@ -1,0 +1,13 @@
+# HW1 delegation log · Announcement text to routes
+
+### Entry 1 · Extract event fields and routes
+- **Date:** 18.10.2026.
+- **Task / acceptance criteria:** Build an offline announcement CLI that extracts title, date, time and location with evidence and confidence. Route to accepted, confirm, review or rejected. Missing required fields stay empty. Test the policy without real model calls.
+- **Delegated to / context:** Codex in this session. Context included my feature requirements, repository AGENTS.md, course HW1 brief and examples, and the three required golden inputs. All changes had to stay in my own HW1 folder.
+- **Autonomy Ladder rung:** Rung 3 was the approved plan: agent drafts the implementation, human reviews the changes. TODO (Nino): confirm whether I reviewed every diff; describe my actual review before claiming this rung was followed throughout.
+- **Plan check:** I corrected the feature scope, requested a replacement plan, then approved it with "ok". The approved replacement included Pydantic, an offline extractor, a pure decision function, tests and a model-usage logging boundary. I required golden actual/pass cells to remain TODO until I ran the commands.
+- **Came back wrong / scope correction:** The first implementation did not match the feature I ultimately wanted. My correction was: "The current hw1/<ninotsutskiridze30-svg>/ implements the WRONG feature" and "Replace it completely." The first implementation had followed the earlier approved plan; this records a scope correction, not an invented failing test.
+- **Caught by / verification:** I identified the feature mismatch in chat and requested replacement. I ran the three golden commands and supplied their JSON outputs: accepted with date 2026-10-22 and room B204; review with an empty date; rejected for the quiet-hours notice. These outputs are recorded in golden.md. The agent's final test run reported 36 passed. I also reported running tests. I ran the test command: "python -m pytest hw1/ninotsutskiridze30-svg -v -p no:cacheprovider" and all the 36 tests passed.
+- **Decision:** Replace the first implementation and proceed with the announcement-to-fields feature. I requested that my observed outputs be entered in golden.md; all three matched the expected checks.
+- **AGENTS.md change:** None made. The replacement stayed inside my HW1 folder and did not require changing team rules.
+- **Cost:** The offline feature made no real model calls, so runtime model cost was $0. Agent-session tokens and currency cost were not measured. TODO (Nino): add my time spent and number of extra runs, if known.

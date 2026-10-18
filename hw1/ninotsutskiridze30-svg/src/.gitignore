@@ -1,0 +1,4 @@
+.test-deps/
+__pycache__/
+.pytest_cache/
+logs/
