@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "title": "Riverside Film Night (fictional)",
+    "venue": "Sample Riverside Yard",
+    "start": "2026-10-24T19:00:00+04:00",
+    "price": 0,
+    "source_url": "https://example.com/events/1"
+  },
+  {
+    "id": 2,
+    "title": "Jazz Session (fictional)",
+    "venue": "Sample Listening Room",
+    "start": "2026-10-23T20:00:00+04:00",
+    "price": 25,
+    "source_url": "https://example.com/events/2"
+  },
+  {
+    "id": 3,
+    "title": "Open Studio Morning (fictional)",
+    "venue": "Sample Makers Studio",
+    "start": "2026-10-21T10:00:00+04:00",
+    "price": 0,
+    "source_url": "https://example.com/events/3"
+  },
+  {
+    "id": 4,
+    "title": "Price Not Listed Talk (fictional)",
+    "venue": "Sample Coworking Hall",
+    "start": "2026-10-22T18:00:00+04:00",
+    "price": null,
+    "source_url": "https://example.com/events/4"
+  },
+  {
+    "id": 5,
+    "title": "Free Walk Downtown (fictional)",
+    "venue": "Sample Old Town Square",
+    "start": "2026-10-31T11:00:00+04:00",
+    "price": 0,
+    "source_url": "https://example.com/events/5"
+  },
+  {
+    "id": 6,
+    "title": "Free Concert in November (fictional)",
+    "venue": "Sample Stage",
+    "start": "2026-11-02T20:00:00+04:00",
+    "price": 0,
+    "source_url": "https://example.com/events/6"
+  },
+  {
+    "id": 7,
+    "title": "Comedy Night (fictional)",
+    "venue": "Sample Stage",
+    "start": "2026-10-25T20:00:00+04:00",
+    "price": 20,
+    "source_url": "https://example.com/events/7"
+  }
+]
