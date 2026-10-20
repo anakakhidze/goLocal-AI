@@ -1,0 +1,48 @@
+{
+  "snapshot_date": "2026-10-19",
+  "time_zone": "Asia/Tbilisi",
+  "events": [
+    {
+      "id": "valerian-shiukashvili",
+      "title": "Valerian Shiukashvili — solo concert",
+      "starts_at": "2026-10-21T20:00",
+      "venue": "Tbilisi State Conservatoire Grand Hall",
+      "source_url": "https://tkt.ge/en/show/35299/valerian-shiukashvili-solo-koncerti"
+    },
+    {
+      "id": "hans-zimmer-vs-john-williams",
+      "title": "Hans Zimmer VS John Williams — film music concert",
+      "starts_at": "2026-10-22T20:00",
+      "venue": "Tbilisi State Conservatoire Grand Hall",
+      "source_url": "https://tkt.ge/event/507299/film-music-hans-zimmer-vs-john-williams"
+    },
+    {
+      "id": "harry-potter-mystery-ensemble",
+      "title": "Harry Potter music — Mystery Ensemble multimedia concert",
+      "starts_at": "2026-10-24T20:00",
+      "venue": "Tbilisi State Conservatoire Grand Hall",
+      "source_url": "https://eventebi.ge/ka/events/the-music-of-harry-potter-by-mystery-ensemble-multimedia-concert"
+    },
+    {
+      "id": "erisioni",
+      "title": "ერისიონი — ქართული საგანძური",
+      "starts_at": "2026-10-30T20:00",
+      "venue": "Tbilisi Sports Palace",
+      "source_url": "https://biletebi.ge/concerts/erisioni"
+    },
+    {
+      "id": "echo-halloween",
+      "title": "ECHO EVENTS HALLOWEEN AT KING DAVID",
+      "starts_at": "2026-10-30T22:00",
+      "venue": "King David",
+      "source_url": "https://tkt.ge/en/Show/35438"
+    },
+    {
+      "id": "tim-burton-mystery-ensemble",
+      "title": "Tim Burton's universe by candlelight — Mystery Ensemble",
+      "starts_at": "2026-10-31T20:00",
+      "venue": "Vakhtang Salaridze Concert Hall",
+      "source_url": "https://tkt.ge/en/show/34432/tim-burtons-universe-by-candlelight-mystery-ensemble"
+    }
+  ]
+}

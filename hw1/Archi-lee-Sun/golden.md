@@ -1,0 +1,11 @@
+# HW1 golden questions · Upcoming events
+
+Run on 20 October 2026 from the team repo root with Python 3. The bundled fixture was compiled on 19 October 2026. These are results from the actual CLI, not predictions. All three commands exited with code **0**. Full output includes `snapshot_date: 2026-10-19`, `time_zone: Asia/Tbilisi`, and a notice that the user should check each original listing.
+
+| # | Question and exact command | Expected result | Actual result | Pass? |
+|---|---|---|---|---|
+| 1 | What are the first three events on or after 20 October? `python hw1/Archi-lee-Sun/src/find_events.py --on-or-after 2026-10-20` | Three events in time order: Valerian Shiukashvili (21 Oct, 20:00), Hans Zimmer VS John Williams (22 Oct, 20:00), Harry Potter music (24 Oct, 20:00), each with its source URL. | `events` contained exactly `valerian-shiukashvili` at `2026-10-21T20:00`, `hans-zimmer-vs-john-williams` at `2026-10-22T20:00`, and `harry-potter-mystery-ensemble` at `2026-10-24T20:00`, in that order. Their `source_url` values were, respectively, `https://tkt.ge/en/show/35299/valerian-shiukashvili-solo-koncerti`, `https://tkt.ge/event/507299/film-music-hans-zimmer-vs-john-williams`, and `https://eventebi.ge/ka/events/the-music-of-harry-potter-by-mystery-ensemble-multimedia-concert`. | Pass |
+| 2 | Which listed event is at King David on or after 20 October? `python hw1/Archi-lee-Sun/src/find_events.py --on-or-after 2026-10-20 --venue "King David"` | Only ECHO Halloween, 30 Oct at 22:00, with its source. | `events` contained only `echo-halloween`, `starts_at: 2026-10-30T22:00`, `venue: King David`, `source_url: https://tkt.ge/en/Show/35438`. | Pass |
+| 3 | Are any snapshot events on or after 1 November? `python hw1/Archi-lee-Sun/src/find_events.py --on-or-after 2026-11-01` | Empty list, successful exit. | `"events": []`, exit code 0; snapshot metadata and historical notice remained present. | Pass |
+
+Additional error evidence: `python hw1/Archi-lee-Sun/src/find_events.py --on-or-after 2026-02-30` printed `date must be YYYY-MM-DD` and returned code 2. The automated run `python -m pytest hw1/Archi-lee-Sun -q` passed all tests; the test suite never contacts a live site or model.
