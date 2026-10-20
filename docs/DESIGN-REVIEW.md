@@ -20,20 +20,27 @@ People in Georgia looking for an event must compare separate listings and may en
 ```mermaid
 flowchart LR
   UI[Next.js browse, filters, map, saved, search] --> DEMO[(Fictional preview events)]
+  UI --> SAVED[(Browser localStorage: saved events)]
   UI -.->|planned GET /events; POST /search| HTTP[HTTP API not implemented]
   HTTP -.-> F
   Q[Question] --> EQ[Gemini embedding: query]
   C[(13 source snapshots)] --> IC[Chunk + Gemini embedding: index]
   IC --> IX[(Local ignored index)]
+  IC --> LOG[(Local usage and answer logs)]
   EQ --> R[Hybrid retrieve; k=5, score >=0.45]
+  EQ --> LOG
   IX --> R
   R -->|no qualifying chunk| X[Refusal]
   R -->|numbered chunks| GA[Gemini JSON answer]
   GA --> V{Schema + citation check}
+  GA --> LOG[(Local usage and answer logs)]
   V -->|valid| A[Answer + trusted source URL]
   V -->|invalid or unavailable| X
+  A --> LOG
+  X --> LOG
   P[Poster image] --> PP[Resize + orientation]
   PP --> GV[Gemini vision extraction]
+  GV --> LOG
   GV --> D{Evidence + confidence decision}
   D -->|uncertain| H[Human confirms/reviews JSON]
   D -->|accepted| J[Reviewed JSON; no DB import]
@@ -61,7 +68,7 @@ The [frontend](https://github.com/ninotsutskiridze30-svg/GoLocal/tree/51aa2c2/fr
 
 The [GoLocal golden set](https://github.com/ninotsutskiridze30-svg/GoLocal/blob/a347f2d/evals/golden.yaml) has ten fixed questions: four factual, two two-document reasoning, two edge, and two refusal. With `k=5` and threshold `0.45`, the [third committed live report](https://github.com/ninotsutskiridze30-svg/GoLocal/blob/a347f2d/evals/results/2026-10-20-145601-live-k5.json) records **9/10 (0.90)** under the original scorer. One apparent refusal pass (g5) was caused by model timeout, not source reasoning; the source-based audit is **8/10 (0.80)**. g10 failed because Gemini returned HTTP 503. The [scorer now rejects provider failures as successful refusals](https://github.com/ninotsutskiridze30-svg/GoLocal/blob/a347f2d/evals/run_golden.py); there has been no fourth live run under that corrected scorer. The source-based audit still exceeds the 0.70 gate. Offline tests use fake providers and do not prove live model quality.
 
-By Week 11, add a format question without weakening the existing ten, run the corrected golden scorer in a controlled evaluation gate, and block a merge below 0.70. Review factual claims as well as citation shape. The current golden set and results must first be brought into this team repository through review; they are not present on its `main` today.
+By Week 11, keep ten cases and strengthen one existing factual case with an explicit output-format assertion while retaining its factual and citation checks. The target mix is **3 factual, 2 reasoning, 2 edge, 2 refusal, and 1 format**. Run the corrected golden scorer in a controlled evaluation gate and block a merge below 0.70. Review factual claims as well as citation shape. The current golden set and results must first be brought into this team repository through review; they are not present on its `main` today.
 
 ## 5 · Token budget and retrieval choice
 
