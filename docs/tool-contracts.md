@@ -38,7 +38,7 @@ It is the common discovery tool, **not Archil's individual HW2 function**.
 
 | Member | Individual function | Status |
 |---|---|---|
-| Archi-lee-Sun | `get_event_details` | Implemented on product branch; teammate review required |
+| Archi-lee-Sun | `get_event_details` | Product PR #14; write-up PR #16; teammate review required |
 | anakakhidze | Not assigned by this change | Teammate selects a different function |
 | ninotsutskiridze30-svg | Not assigned by this change | Teammate selects a different function |
 

@@ -59,5 +59,14 @@ Both PRs need a teammate's review and merge, then the individual submits the Tea
 Never merge the deliberately weakened red branch. The repo owner must require CI
 job `test`; only a genuinely enforced status proves that red CI blocks a merge.
 
+Verified on 23 November: product [PR #14](https://github.com/anakakhidze/goLocal-AI/pull/14)
+has a successful [CI run](https://github.com/anakakhidze/goLocal-AI/actions/runs/45137119115).
+Write-up [PR #16](https://github.com/anakakhidze/goLocal-AI/pull/16) changes only
+`hw2/Archi-lee-Sun/`. Mutation [PR #15](https://github.com/anakakhidze/goLocal-AI/pull/15)
+was closed unmerged after its real contract-regression failure, and its remote branch was deleted.
+The active main ruleset requires one approval but **does not yet require status `test`**.
+Ana, as Repo keeper, must add that required check and repeat the blocked-by-CI
+demonstration. A blocked-by-review PR is not evidence of required CI enforcement.
+
 HW2's old 8 November deadline is superseded by Lab 7 + seven days at 23:59 Tbilisi.
 25 November applies if the Lab 7 session was 18 November; confirm the Teams announcement.
