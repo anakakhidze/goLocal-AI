@@ -1,12 +1,12 @@
 # AGENTS.md · goLocal-AI (working repository name)
 
-AI coding agents work on a planned local discovery application for people across Georgia. The first slice is documented, not implemented. Feature source of truth: `docs/spec.md`; repository workflow: `docs/TEAM-REPO.md`.
+AI coding agents work on a local discovery application for people across Georgia. The HW2 tool slice is implemented here; the full application remains in the companion repository. Feature source of truth: `docs/spec.md`; tool contract: `docs/tool-contracts.md`; repository workflow: `docs/TEAM-REPO.md`.
 
 ## Commands
 
-- Install: PENDING — no dependency manifest exists.
-- Run: PENDING — no Django application exists.
-- Test: PENDING — no test suite or verified command exists.
+- Install HW2: `python -m venv .venv`, then `.\.venv\Scripts\python.exe -m pip install -r requirements-hw2.txt`.
+- Run HW2: `.\.venv\Scripts\python.exe -m src.cli mcp-smoke`; stdio server: `python -m src.mcp_server`. No full Django application exists.
+- Test HW2: `$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD='1'; .\.venv\Scripts\python.exe -m pytest -q tests`; HW1: `python -m pytest hw1/Archi-lee-Sun`.
 - Lint/format: PENDING — no configuration or verified command exists.
 
 ## Conventions
@@ -36,3 +36,5 @@ AI coding agents work on a planned local discovery application for people across
 - Read, write, commit, or print `.env` or secrets.
 - Delete, skip, or weaken a test to make code pass.
 - Fabricate event details or source URLs, or return a model-selected event ID absent from validated source data.
+- Put user/student/account identity in tool arguments, expose input-selected paths/URLs, or weaken a golden case to obtain green CI.
+- Offer a consequential tool inside the event-information loop. Booking, buying, saving or sending requires a separately reviewed confirmation gate.

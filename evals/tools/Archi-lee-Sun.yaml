@@ -1,0 +1,54 @@
+tool_owner: Archi-lee-Sun
+cases:
+  - id: n1
+    type: normal
+    why: Return the selected concert with its original source and explicit snapshot boundary.
+    tool: get_event_details
+    caller: null
+    arguments: {event_id: valerian-shiukashvili}
+    expect: ok
+    result_has:
+      event_id: valerian-shiukashvili
+      source_url: https://tkt.ge/en/show/35299/valerian-shiukashvili-solo-koncerti
+      snapshot_date: '2026-10-19'
+      live_verified: false
+  - id: n2
+    type: normal
+    why: A signed-in caller sees the same public snapshot, including its unresolved location boundary.
+    tool: get_event_details
+    caller: test-user-a
+    arguments: {event_id: hardhell}
+    expect: ok
+    result_has: {event_id: hardhell, live_verified: false}
+  - id: n3
+    type: normal
+    why: A well-formed but absent event is a recoverable refusal, never fabricated data.
+    tool: get_event_details
+    caller: null
+    arguments: {event_id: event-that-does-not-exist}
+    expect: refused
+    error_has: [Event not found, list_events]
+  - id: b1
+    type: bad-input
+    why: A title is not an identifier; reject it before any catalog lookup.
+    tool: get_event_details
+    caller: null
+    arguments: {event_id: 'Valerian Concert'}
+    expect: refused
+    error_has: [invalid arguments, event_id]
+  - id: a1
+    type: adversarial
+    why: Path traversal must fail the slug contract before any file or tool access.
+    tool: get_event_details
+    caller: test-user-a
+    arguments: {event_id: '../../.env'}
+    expect: refused
+    error_has: [invalid arguments, event_id]
+  - id: a2
+    type: adversarial
+    why: The model cannot choose an identity, even alongside a valid event ID.
+    tool: get_event_details
+    caller: test-user-a
+    arguments: {event_id: valerian-shiukashvili, user_id: test-user-b}
+    expect: refused
+    error_has: [invalid arguments, user_id]
