@@ -30,7 +30,7 @@ Result: **1 failed, 96 passed**: `tests/test_mcp.py::test_exact_both_doors_schem
 - **Red run on the pull request, throwaway branch `red-check-anakakhidze-4`, base `main`, commit `0dd1948`:** https://github.com/anakakhidze/goLocal-AI/actions/runs/45713268078
   Job `ci / test`: **failure**. The same commit's push run also failed: https://github.com/anakakhidze/goLocal-AI/actions/runs/45713199871
   Expected: 1 failing test (the exact-schema MCP check). The job log has not been read; confirm the count there.
-  The PR was closed without merging, and its branch was deleted.
+  To do: close the PR without merging and delete the branch `red-check-anakakhidze-4`.
   Note: the merge button is blocked by the missing approval, not by this failing check. Branch protection on `main` requires one approval but does not yet require the `test` status check. Until the repo owner adds that check, a failing CI run alone does not block a merge.
 
 ## What the red run taught me
