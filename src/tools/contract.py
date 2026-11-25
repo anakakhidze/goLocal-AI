@@ -15,7 +15,7 @@ Category = Literal["music", "film", "art", "sport", "talk", "other"]
 
 
 class SearchEventsInput(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="ignore")
 
     city: City
     category: Category | None = None
@@ -25,7 +25,7 @@ class SearchEventsInput(BaseModel):
 
 
 class EventOut(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="ignore")
 
     id: int = Field(ge=1)
     title: str
