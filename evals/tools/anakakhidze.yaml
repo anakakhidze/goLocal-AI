@@ -5,54 +5,55 @@
 #   tool        the tool name in the registry
 #   caller      null: search_events is offered to everyone and needs no identity
 #   arguments   the JSON the model sends
-#   expect      ok       -> result_has: the derived view of the result that must match (here: ids)
+#   expect      ok       -> result_has: the derived view of the result that must match (here: ids, in order)
 #               refused  -> error_has: phrases that must appear in the error the model reads
 #   why         one line: what this case protects
 #
+# Expected ids were checked by hand against data/demo_events.json (GoLocal's fictional demo fixture).
 # Five cases: 3 normal, 1 bad-input, 1 adversarial.
 tool_owner: anakakhidze
 cases:
   - id: n1
     type: normal
-    why: Only free (price 0) Tbilisi music events; the 15 GEL event is excluded.
+    why: "Music events up to 30 GEL: the 20 GEL event and the free event match; the rest are not music."
     tool: search_events
     caller: null
-    arguments: {city: Tbilisi, category: music, free_only: true}
+    arguments: {city: Tbilisi, category: music, max_price_gel: 30}
     expect: ok
-    result_has: {ids: [1]}
+    result_has: {ids: [paper-lantern-jazz, sunset-guitar]}
 
   - id: n2
     type: normal
-    why: All Batumi events sorted by start time, cut to the first two.
+    why: "Keyword match is case-insensitive over title and description; only one fixture event mentions jazz."
     tool: search_events
     caller: null
-    arguments: {city: Batumi, limit: 2}
+    arguments: {city: Tbilisi, keyword: jazz}
     expect: ok
-    result_has: {ids: [7, 8]}
+    result_has: {ids: [paper-lantern-jazz]}
 
   - id: n3
     type: normal
-    why: Known prices up to 30 GEL; the unknown-price event (id 4) never matches a price filter.
+    why: "A date window is inclusive by local date; events on the 20th, 21st and 22nd of October match, in start order."
     tool: search_events
     caller: null
-    arguments: {city: Tbilisi, max_price_gel: 30, limit: 10}
+    arguments: {city: Tbilisi, start_date: "2026-10-20", end_date: "2026-10-22", limit: 12}
     expect: ok
-    result_has: {ids: [1, 2, 3, 5, 6]}
+    result_has: {ids: [paper-lantern-jazz, rooftop-dance, color-and-light]}
 
   - id: b1
     type: bad-input
-    why: A city outside the fixed set is refused before the tool reads any data.
+    why: "A city outside the fixed set is refused before any event is read."
     tool: search_events
     caller: null
-    arguments: {city: Kutaisi}
+    arguments: {city: Batumi}
     expect: refused
     error_has: [invalid arguments, city]
 
   - id: a1
     type: adversarial
-    why: An identity field added to the arguments is refused, so the tool never acts for another user.
+    why: "A SQL injection string smuggled into keyword is refused by the pattern, so no query text reaches the data lookup."
     tool: search_events
     caller: null
-    arguments: {city: Tbilisi, user_id: "u-42"}
+    arguments: {city: Tbilisi, keyword: "x' OR '1'='1"}
     expect: refused
-    error_has: [invalid arguments, user_id]
+    error_has: [invalid arguments, keyword]

@@ -20,13 +20,13 @@ def _lines(path):
 
 
 def test_successful_call_writes_one_line_without_values(log_file):
-    call_tool("search_events", {"city": "Batumi", "limit": 2})
+    call_tool("search_events", {"city": "Tbilisi", "limit": 2})
     (record,) = _lines(log_file)
     assert record["tool"] == "search_events"
     assert record["argument_names"] == ["city", "limit"]
     assert record["ok"] is True
     assert record["error_kind"] is None
-    assert "Batumi" not in log_file.read_text(encoding="utf-8")
+    assert "Tbilisi" not in log_file.read_text(encoding="utf-8")
 
 
 def test_refused_call_is_logged_with_error_kind_only(log_file):

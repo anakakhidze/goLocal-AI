@@ -24,7 +24,7 @@ def run_case(case):
     """Return {ok, result} or {ok, error}, the same way the model would see it."""
     try:
         result = call_tool(case["tool"], case["arguments"])
-        return {"ok": True, "result": {"ids": [event["id"] for event in result]}}
+        return {"ok": True, "result": {"ids": [event["external_id"] for event in result]}}
     except ToolError as error:
         return {"ok": False, "error": str(error)}
 

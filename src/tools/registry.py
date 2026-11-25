@@ -35,8 +35,9 @@ TOOLS: dict[str, dict[str, Any]] = {
         "input": SearchEventsInput,
         "run": search_events,
         "description": (
-            "Find synthetic events in Tbilisi or Batumi. Filter by category, free_only, "
-            "max_price_gel (0 to 500 GEL) and limit (1 to 10). Results are sorted by start time."
+            "Find fictional GoLocal demo events in Tbilisi. Filter by category, keyword (letters and spaces), "
+            "max_price_gel (0 to 500 GEL), start_date and end_date (YYYY-MM-DD), and limit (1 to 12). "
+            "Results are sorted by start time. Reads only; changes nothing."
         ),
     },
 }
