@@ -26,7 +26,7 @@ This shows the tests catch both weakenings locally.
 ## CI runs (GitHub Actions, workflow `HW2 tool contract`)
 
 - **Green run on the current product commit `ae4ff4d`:** https://github.com/anakakhidze/goLocal-AI/actions/runs/45706224737
-  _Status when this was written: in progress. Confirm it shows success before merging._
+  Product PR #17, `pull_request` event, conclusion `success`.
 - **Previous green run on `4db1a0f` (the synthetic-data version):** https://github.com/anakakhidze/goLocal-AI/actions/runs/45703332573
 - **Red run (CI failed on the pull request), on the earlier version:** https://github.com/anakakhidze/goLocal-AI/actions/runs/45698715645/job/139502851273
   Throwaway PR #18 (`red-check-anakakhidze`), weakened to `extra="ignore"`. It shows the gate fails, but it was run on the earlier version of the contract.
