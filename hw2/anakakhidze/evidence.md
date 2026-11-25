@@ -22,12 +22,17 @@ Local run, Python 3.14, Windows, in a virtual environment with `requirements-hw2
 
 ## Gate check: a weakened contract must fail
 
-_To be redone on the current code. The earlier weakened-check numbers were for a separate package that has been removed from the product branch._
+Run in a scratch copy of commit `5cc4df6`. The `SearchEvents` model config was changed to `extra="ignore"`, placed after the docstring.
+Result: **1 failed, 96 passed**: `tests/test_mcp.py::test_exact_both_doors_schema_including_additional_properties`. The adversarial golden case still refuses the SQL text, because the keyword pattern refuses it on its own.
 
-## Red run (CI must fail on a weakened contract)
+## Red run (CI fails on a weakened contract)
 
-_To be redone on the current code, on a throwaway branch with base `main`, and the failed run link pasted here._
+- **Red run on the pull request, throwaway branch `red-check-anakakhidze-4`, base `main`, commit `0dd1948`:** https://github.com/anakakhidze/goLocal-AI/actions/runs/45713268078
+  Job `ci / test`: **failure**. The same commit's push run also failed: https://github.com/anakakhidze/goLocal-AI/actions/runs/45713199871
+  Expected: 1 failing test (the exact-schema MCP check). The job log has not been read; confirm the count there.
+  The PR was closed without merging, and its branch was deleted.
+  Note: the merge button is blocked by the missing approval, not by this failing check. Branch protection on `main` requires one approval but does not yet require the `test` status check. Until the repo owner adds that check, a failing CI run alone does not block a merge.
 
 ## What the red run taught me
 
-_To be written after the new red run._
+A rule in the contract only protects the product if a test enforces it. Weakening `extra="forbid"` to `extra="ignore"` removes the schema rule that tells clients no extra fields are allowed, and the MCP exact-schema test catches that. The adversarial SQL case stayed refused, because a separate keyword pattern covers it, so each rule needs its own test.
