@@ -34,6 +34,7 @@ DATE_TEXT = r"^\d{4}-\d{2}-\d{2}$"
 
 class SearchEvents(Contract):
     """Find fictional GoLocal demo events in Tbilisi by category, keyword, budget and date window. Reads only."""
+    model_config = ConfigDict(extra="ignore", strict=True, frozen=True)
     city: Literal["Tbilisi"]
     category: Category | None = None
     keyword: str | None = Field(default=None, pattern=r"^[A-Za-z][A-Za-z ]{0,39}$",
