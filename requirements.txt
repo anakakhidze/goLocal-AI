@@ -3,3 +3,4 @@ google-genai
 pytest
 pytest-django
 python-dotenv
+-r requirements-hw2.txt

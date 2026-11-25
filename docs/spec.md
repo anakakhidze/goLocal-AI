@@ -2,6 +2,15 @@
 
 **Snapshot:** 20 October 2026 · **Spec keeper:** Archil Sanikidze.
 
+**HW2 update, 23 November 2026:** this repository now contains the minimal shared
+tool/MCP/CI frame and Archi-lee-Sun's `get_event_details` product capability.
+It reads the existing 13 source snapshots integrated from GoLocal, validates a bounded
+slug, returns original sources/date/uncertainty, and makes no external request or
+business-state change. `list_events` is the common discovery tool; the detail tool is
+the individual's distinct HW2. See `docs/tool-contracts.md` and `docs/HW2-RUNBOOK.md`.
+The architecture snapshot below still describes the companion application's broader
+state, not a claim that its frontend, database or full HTTP backend was copied here.
+
 This living spec describes the application implemented in the separate [GoLocal repository, `main` at `51aa2c2`](https://github.com/ninotsutskiridze30-svg/GoLocal/tree/51aa2c2). That commit includes the frontend, database foundation, discovery, poster and RAG branches. This **goLocal-AI** repository holds team/course documentation and individual homework; the application code has not been integrated into its `main`. Some older GoLocal documents still call implemented functions pending, so the pinned source is the evidence for current behavior.
 
 ## Problem, users and goal

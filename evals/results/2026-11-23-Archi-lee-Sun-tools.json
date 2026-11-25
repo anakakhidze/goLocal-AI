@@ -1,0 +1,110 @@
+{
+  "timestamp_utc": "2026-11-23T08:13:29.955758+00:00",
+  "owner": "Archi-lee-Sun",
+  "mode": "offline-real-executor",
+  "model_calls": 0,
+  "passed": 6,
+  "total": 6,
+  "cases": [
+    {
+      "id": "n1",
+      "type": "normal",
+      "why": "Return the selected concert with its original source and explicit snapshot boundary.",
+      "expected": "ok",
+      "passed": true,
+      "actual": {
+        "ok": true,
+        "error": null,
+        "error_code": null,
+        "result": {
+          "event_id": "valerian-shiukashvili",
+          "title": "Valerian Shiukashvili — solo concert",
+          "source_url": "https://tkt.ge/en/show/35299/valerian-shiukashvili-solo-koncerti",
+          "snapshot_date": "2026-10-19",
+          "event_time": "2026-10-21, 20:00; doors open at 19:30",
+          "location": "Grand Hall, Tbilisi State Conservatoire, Alexander Griboedov Street 8/10, Tbilisi",
+          "details": "## Event and entry details\n\n21 ოქტომბერს, 20:00 საათზე, თბილისის სახელმწიფო კონსერვატორიის დიდ დარბაზში ვალერიან შიუკაშვილის სოლო საფორტეპიანო კონცერტია; კარი 19:30-ზე იღება. პროგრამაშია დომენიკო სკარლატის, ფრედერიკ შოპენისა და მოდესტ მუსორგსკის ნაწარმოებები. ღონისძიებაზე დასწრება 10 წლიდან შეიძლება.\n\nPianist Valerian Shiukashvili performs a solo concert in two parts. The advertised programme includes works by Domenico Scarlatti, Frédéric Chopin and Modest Mussorgsky. The listing says this is the programme prepared for his planned Carnegie Hall performance on 2 November.\n\nEntry is permitted from age 10. The source is the authority for current ticket availability and prices.",
+          "kind": "event",
+          "live_verified": false,
+          "notice": "Historical listing snapshot, not live availability. Dates, prices, entry rules, and status may have changed. Check the original source before making plans."
+        }
+      }
+    },
+    {
+      "id": "n2",
+      "type": "normal",
+      "why": "A signed-in caller sees the same public snapshot, including its unresolved location boundary.",
+      "expected": "ok",
+      "passed": true,
+      "actual": {
+        "ok": true,
+        "error": null,
+        "error_code": null,
+        "result": {
+          "event_id": "hardhell",
+          "title": "HARDHELL X REVOLUTION",
+          "source_url": "https://yolo.ge/poster/hardhell-x-revolution45678",
+          "snapshot_date": "2026-10-19",
+          "event_time": "2026-10-22, 22:00",
+          "location": "Baratashvili Bridge area, Tbilisi; confirm the entrance at the ticket source",
+          "details": "## Event and entry details\n\nHARDHELL X REVOLUTION 22 ოქტომბერს, 22:00 საათზე, თბილისში ბარათაშვილის ხიდის მიმდებარე ტერიტორიაზეა დაგეგმილი. მთავარ მოწვეულ შემსრულებლად WarinD არის მითითებული; აფიშაზე სხვა ელექტრონული მუსიკის შემსრულებლებიც არიან ჩამოთვლილი. მოქმედებს face control და ასაკობრივი კონტროლი. ზუსტი შესასვლელი და ასაკობრივი ზღვარი ბილეთის წყაროსთან უნდა გადამოწმდეს.\n\nHARDHELL advertises a return headline show with special guest WarinD. The public lineup also lists AID, FANK FORD, GHST, HARDLØAD, HUMAN, Mitsubass, M•RAY•NI, OGAN, SAPPHIRE, SEMAY, VNGDR, ZAKARIA and ZAPTER.\n\nThe event description states that face control and an age restriction apply. The supplied event text specifies 18+, but the linked listing does not give a precise numeric age threshold; confirm that threshold with the ticket source before presenting it as verified. The supplied text and the listing give different location wording, so this record does not assert a street number.",
+          "kind": "event",
+          "live_verified": false,
+          "notice": "Historical listing snapshot, not live availability. Dates, prices, entry rules, and status may have changed. Check the original source before making plans."
+        }
+      }
+    },
+    {
+      "id": "n3",
+      "type": "normal",
+      "why": "A well-formed but absent event is a recoverable refusal, never fabricated data.",
+      "expected": "refused",
+      "passed": true,
+      "actual": {
+        "ok": false,
+        "error": "Event not found. Call list_events and use one of its exact event_id values; do not guess.",
+        "error_code": "tool_failure",
+        "result": null
+      }
+    },
+    {
+      "id": "b1",
+      "type": "bad-input",
+      "why": "A title is not an identifier; reject it before any catalog lookup.",
+      "expected": "refused",
+      "passed": true,
+      "actual": {
+        "ok": false,
+        "error": "invalid arguments: event_id. Follow the listed schema; remove unknown fields.",
+        "error_code": "invalid_arguments",
+        "result": null
+      }
+    },
+    {
+      "id": "a1",
+      "type": "adversarial",
+      "why": "Path traversal must fail the slug contract before any file or tool access.",
+      "expected": "refused",
+      "passed": true,
+      "actual": {
+        "ok": false,
+        "error": "invalid arguments: event_id. Follow the listed schema; remove unknown fields.",
+        "error_code": "invalid_arguments",
+        "result": null
+      }
+    },
+    {
+      "id": "a2",
+      "type": "adversarial",
+      "why": "The model cannot choose an identity, even alongside a valid event ID.",
+      "expected": "refused",
+      "passed": true,
+      "actual": {
+        "ok": false,
+        "error": "invalid arguments: user_id. Follow the listed schema; remove unknown fields.",
+        "error_code": "invalid_arguments",
+        "result": null
+      }
+    }
+  ]
+}
