@@ -1,52 +1,70 @@
 # Tool contract · search_events · anakakhidze
 
-**Owner:** anakakhidze · **Function:** `search_events` (lookup over synthetic event data)
+*One page, from the Lab 5 template (`templates/tool-contract.md`).*
 **Code on main (after merge):** [src/tools/contract.py](../../src/tools/contract.py) · [src/tools/search_events.py](../../src/tools/search_events.py) · [src/tools/registry.py](../../src/tools/registry.py) · [src/tools/mcp_server.py](../../src/tools/mcp_server.py)
-**Golden set:** [evals/tools/anakakhidze.yaml](../../evals/tools/anakakhidze.yaml) · **Test runner:** [tests/test_tool_golden.py](../../tests/test_tool_golden.py), [tests/test_both_doors.py](../../tests/test_both_doors.py)
+**Golden set:** [evals/tools/anakakhidze.yaml](../../evals/tools/anakakhidze.yaml) · **Runners:** [tests/test_tool_golden.py](../../tests/test_tool_golden.py), [tests/test_both_doors.py](../../tests/test_both_doors.py), [tests/test_tools_log.py](../../tests/test_tools_log.py)
 
-## Purpose
+## `search_events`
 
-A model asks for events in one city, optionally filtered by category, price and count. The tool
-returns matching events, sorted by start time. It is a read-only lookup. It sends no messages,
-pays for nothing and changes no data.
+**In one sentence, for the model:** Finds synthetic events in Tbilisi or Batumi, filtered by category, free-only, maximum price and count. It reads data and changes nothing.
 
-## Inputs (exactly these five fields)
+| | |
+|---|---|
+| **Effect** | reads |
+| **Undo** | nothing to undo: no state changes |
+| **Idempotent?** | yes: the same arguments give the same result, and nothing is written |
+| **Offered to** | everyone, visitors included. It needs no identity, so offering it widely costs nothing |
+| **Identity from** | n/a. The contract has no identity field, and the tool never receives a caller |
+| **Touches** | `data/synthetic_events.json`, read only, at a fixed path the caller cannot change |
+| **Must never** | write data, act for a named person, or build a path or URL from the arguments |
 
-| Field | Type | Rule |
-|---|---|---|
-| `city` | string, required | fixed set: `Tbilisi`, `Batumi` |
-| `category` | string, optional | fixed set: `music`, `film`, `art`, `sport`, `talk`, `other` |
-| `free_only` | boolean, default `false` | when true, only events with price 0 |
-| `max_price_gel` | number, optional | 0 to 500 inclusive. Events with unknown price never match a price limit |
-| `limit` | integer, default 5 | 1 to 10 inclusive |
+**Inputs.** Every string has a fixed set of values; every number has bounds; unknown fields are refused.
 
-Any other field is refused (`extra="forbid"`). Identity fields (user, student, account), paths,
-URLs and free-text queries are not part of the contract, so they cannot be passed.
+| Argument | Type | Constraint | Description the model reads |
+|---|---|---|---|
+| `city` | string | required; fixed set: `Tbilisi`, `Batumi` | City to search |
+| `category` | string | optional; fixed set: `music`, `film`, `art`, `sport`, `talk`, `other` | Event category |
+| `free_only` | boolean | default `false` | Only events with price 0 |
+| `max_price_gel` | number | optional; 0 to 500 inclusive. Unknown prices never match | Highest price in GEL |
+| `limit` | integer | default 5; 1 to 10 inclusive | How many events to return |
 
-## Output
+**Result.** A list of up to `limit` objects: `id` (integer ≥ 1), `title`, `venue`, `start` (ISO 8601 with UTC offset), `price_gel` (number, or null when unknown), `source_url` (must start with `https://`). No internal fields.
 
-A list of up to `limit` objects with exactly: `id`, `title`, `venue`, `start` (ISO 8601 with UTC offset),
-`price_gel` (number or null when unknown), `source_url` (must start with `https://`).
+**Expected failures**
 
-## Errors (what the model sees)
+| When | Message the model reads |
+|---|---|
+| an unknown field, such as `user_id` | `Invalid arguments: unexpected field 'user_id'. This tool accepts only: city, category, free_only, max_price_gel, limit. Remove that field and try again.` |
+| a city outside the fixed set | `Invalid arguments: field 'city' must be 'Tbilisi' or 'Batumi'. Pick a listed value and try again.` |
+| a number out of bounds | `Invalid arguments: field 'max_price_gel' is invalid (...less than or equal to 500...). Fix it and try again.` |
+| a required field missing | `Invalid arguments: field 'city' is required. Add it and try again.` |
+| an unknown tool name | `Unknown tool 'x'. Available tools: search_events.` |
 
-- Direct door (`call_tool`): a message that names the field and the fix, for example
-  `Unexpected field 'user_id'. This tool accepts only: city, category, free_only, max_price_gel, limit.`
-- MCP door: the server validates the same model before the tool runs. Its message names the bad field.
-- No stack traces, table names or file paths appear in any message. Tests check this.
+**Tests and golden cases**
 
-## Least-privilege locks
+| Case | Type | Expect | Where |
+|---|---|---|---|
+| `n1` free Tbilisi music | normal | ids `[1]` | `evals/tools/anakakhidze.yaml` |
+| `n2` Batumi, limit 2 | normal | ids `[7, 8]` | `evals/tools/anakakhidze.yaml` |
+| `n3` Tbilisi under 30 GEL, unknown price excluded | normal | ids `[1, 2, 3, 5, 6]` | `evals/tools/anakakhidze.yaml` |
+| `b1` city `Kutaisi` | bad-input | refused, names `city` | `evals/tools/anakakhidze.yaml` |
+| `a1` extra `user_id` field | adversarial | refused, names `user_id` | `evals/tools/anakakhidze.yaml` |
 
-1. Input model refuses unknown fields (`extra="forbid"`).
-2. Every string is a fixed set (no free text reaches the tool).
-3. Every number has bounds (`max_price_gel` 0–500, `limit` 1–10).
-4. No user, student or account field exists.
-5. Data is read from one fixed path. Callers cannot choose a file.
-6. No network, no writes, no model calls.
-7. Errors are messages for the model, not internal details.
+Golden cases run through `call_tool()` in `tests/test_tool_golden.py` in CI. `tests/test_both_doors.py` runs the same cases through the MCP server. `tests/test_tools_log.py` checks the log line.
+
+**Log line.** `logs/tools.jsonl` gets one line per call: timestamp, tool name, argument **names** (never values), `ok`, error kind (`invalid_arguments`, `unknown_tool` or null) and latency in ms. Deliberately left out: argument values, which can hold personal data; results; and any caller id, since the tool never receives one.
+
+## Least-privilege locks (the seven from Lab 5)
+
+1. **A contract in code:** fixed sets, patterns, ranges, extra fields refused. → `src/tools/contract.py`
+2. **No identity, account or permission field** the model can fill. → none in the contract; checked by `test_mcp_registers_the_tool_with_exact_fields`
+3. **Offered only to callers who need it.** → n/a: read-only, offered to everyone, no identity
+4. **No destructive tool unless a person confirms.** → n/a: `search_events` only reads; no delete or update tool exists
+5. **Errors that say what to do next, and leak nothing.** → `src/tools/registry.py` (`_message_for`); the tests check for no `Traceback`
+6. **A budget.** → n/a: one call per request and no loop
+7. **One log line per call; tests for the bad calls.** → `registry._log`; `tests/test_tools_log.py`; golden cases `b1` and `a1`
 
 ## Known limits
 
 - The data is synthetic (`data/synthetic_events.json`, every title marked `[SYNTHETIC]`). It is not a live ticket source.
-- The MCP door's error text comes from the MCP framework, so it is less friendly than the direct door's text.
-  Both refuse the same inputs; the golden cases check that.
+- MCP door refusals are raised by the MCP framework before `call_tool()` runs, so they are **not** written to the log, and their wording is the framework's. Both doors refuse the same inputs; the golden cases check that.
