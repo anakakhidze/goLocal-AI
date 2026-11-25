@@ -1,9 +1,9 @@
 # Tool contract · search_events · anakakhidze
 
 *One page, from the Lab 5 template (`templates/tool-contract.md`).*
-**Code on main (after merge):** [src/tools/contract.py](../../src/tools/contract.py) · [src/tools/search_events.py](../../src/tools/search_events.py) · [src/tools/registry.py](../../src/tools/registry.py) · [src/tools/mcp_server.py](../../src/tools/mcp_server.py)
+**Code on main (after merge):** [src/search_events.py](../../src/search_events.py) (contract and lookup) · [src/tools.py](../../src/tools.py) (one registry entry) · the shared executor [src/act.py](../../src/act.py) and MCP server [src/mcp_server.py](../../src/mcp_server.py)
 **Data:** [data/demo_events.json](../../data/demo_events.json) (GoLocal's 25 fictional demo events)
-**Golden set:** [evals/tools/anakakhidze.yaml](../../evals/tools/anakakhidze.yaml) · **Runners:** [tests/test_tool_golden.py](../../tests/test_tool_golden.py), [tests/test_both_doors.py](../../tests/test_both_doors.py), [tests/test_tools_log.py](../../tests/test_tools_log.py)
+**Golden set:** [evals/tools/anakakhidze.yaml](../../evals/tools/anakakhidze.yaml) · **Runner (shared):** [tests/test_tool_golden.py](../../tests/test_tool_golden.py) · **Filter checks:** [tests/test_search_events.py](../../tests/test_search_events.py)
 
 ## `search_events`
 
@@ -54,19 +54,19 @@
 | `b1` city `Batumi` | bad-input | refused, names `city` | `evals/tools/anakakhidze.yaml` |
 | `a1` keyword `x' OR '1'='1` (SQL injection text) | adversarial | refused, names `keyword` | `evals/tools/anakakhidze.yaml` |
 
-The expected ids were checked by hand against the fixture file. Golden cases run through `call_tool()` in `tests/test_tool_golden.py` in CI. `tests/test_both_doors.py` runs the same cases through the MCP server. `tests/test_tools_log.py` checks the log line.
+The expected ids were checked by hand against the fixture file. Golden cases run through the shared executor `call_tool()` in `tests/test_tool_golden.py` in CI, the same runner as Archil's cases. The shared MCP server serves the same tool, and `tests/test_mcp.py` checks that every registry entry is registered. `tests/test_search_events.py` checks the filter rules.
 
-**Log line.** `logs/tools.jsonl` gets one line per call: timestamp, tool name, argument **names** (never values), `ok`, error kind (`invalid_arguments`, `unknown_tool` or null) and latency in ms. Deliberately left out: argument values, which can hold personal data; results; and any caller id, since the tool never receives one.
+**Log line.** The shared executor writes one audit line per call: timestamp, safe tool name, caller hash (none for this visitor-level tool), `ok`, error code and latency. It never records arguments, results, model text or tracebacks.
 
 ## Least-privilege locks (the seven from Lab 5)
 
-1. **A contract in code:** fixed sets, patterns, ranges, extra fields refused. → `src/tools/contract.py`
+1. **A contract in code:** fixed sets, patterns, ranges, extra fields refused. → `src/search_events.py`
 2. **No identity, account or permission field** the model can fill. → none in the contract; checked by `test_mcp_registers_the_tool_with_exact_fields`
 3. **Offered only to callers who need it.** → n/a: read-only, offered to everyone, no identity
 4. **No destructive tool unless a person confirms.** → n/a: `search_events` only reads; no delete or update tool exists
-5. **Errors that say what to do next, and leak nothing.** → `src/tools/registry.py` (`_message_for`); the tests check for no `Traceback`
+5. **Errors that say what to do next, and leak nothing.** → the shared executor `src/act.py`; the golden runner checks the messages and no `Traceback`
 6. **A budget.** → n/a: one call per request and no loop
-7. **One log line per call; tests for the bad calls.** → `registry._log`; `tests/test_tools_log.py`; golden cases `b1` and `a1`
+7. **One log line per call; tests for the bad calls.** → `src/act.py` (`_record`); golden cases `b1` and `a1`
 
 ## Known limits
 
