@@ -28,7 +28,8 @@ Result: **4 failed, 11 passed**:
   Throwaway PR #18 (`red-check-anakakhidze`), weakened to `extra="ignore"`. Three tests failed in that version of the tests; the local run above shows four, because the log tests were added later.
   Note: the merge button was blocked by the missing approval, not by this failing check. Branch protection on `main` requires one approving review but does not yet require the `golden-cases` status check. Until the repo owner adds that check, a failing CI run alone does not block a merge.
 - **Green run on the product pull request (earlier commit `272442e`):** https://github.com/anakakhidze/goLocal-AI/actions/runs/45694038272/job/139486642833
-- **Green run on the current commit `4db1a0f`:** _pending: add the link after CI runs on PR #17_
+- **Green run on the current commit `4db1a0f`:** https://github.com/anakakhidze/goLocal-AI/actions/runs/45703332573
+  Product PR #17, `pull_request` event, conclusion `success`.
 
 ## What the red run taught me
 
