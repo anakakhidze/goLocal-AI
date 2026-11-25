@@ -1,0 +1,12 @@
+[
+  {"id": 1, "title": "[SYNTHETIC] Riverside Concert", "city": "Tbilisi", "category": "music", "venue": "Synthetic Riverside Yard", "start": "2026-12-05T19:00:00+04:00", "price_gel": 0, "source_url": "https://example.com/synthetic/1"},
+  {"id": 2, "title": "[SYNTHETIC] Club Jazz Night", "city": "Tbilisi", "category": "music", "venue": "Synthetic Listening Room", "start": "2026-12-06T20:00:00+04:00", "price_gel": 15, "source_url": "https://example.com/synthetic/2"},
+  {"id": 3, "title": "[SYNTHETIC] Short Film Evening", "city": "Tbilisi", "category": "film", "venue": "Synthetic Cinema Hall", "start": "2026-12-07T18:00:00+04:00", "price_gel": 0, "source_url": "https://example.com/synthetic/3"},
+  {"id": 4, "title": "[SYNTHETIC] Open Easel Session", "city": "Tbilisi", "category": "art", "venue": "Synthetic Studio", "start": "2026-12-08T12:00:00+04:00", "price_gel": null, "source_url": "https://example.com/synthetic/4"},
+  {"id": 5, "title": "[SYNTHETIC] Morning Park Run", "city": "Tbilisi", "category": "sport", "venue": "Synthetic Park Gate", "start": "2026-12-09T10:00:00+04:00", "price_gel": 0, "source_url": "https://example.com/synthetic/5"},
+  {"id": 6, "title": "[SYNTHETIC] Panel on Local Crafts", "city": "Tbilisi", "category": "talk", "venue": "Synthetic Library", "start": "2026-12-10T17:00:00+04:00", "price_gel": 25, "source_url": "https://example.com/synthetic/6"},
+  {"id": 7, "title": "[SYNTHETIC] Seaside Band Night", "city": "Batumi", "category": "music", "venue": "Synthetic Boardwalk Stage", "start": "2026-12-05T20:00:00+04:00", "price_gel": 0, "source_url": "https://example.com/synthetic/7"},
+  {"id": 8, "title": "[SYNTHETIC] Outdoor Cinema", "city": "Batumi", "category": "film", "venue": "Synthetic Pier", "start": "2026-12-06T19:30:00+04:00", "price_gel": 20, "source_url": "https://example.com/synthetic/8"},
+  {"id": 9, "title": "[SYNTHETIC] Painting Walk", "city": "Batumi", "category": "art", "venue": "Synthetic Old Town", "start": "2026-12-07T11:00:00+04:00", "price_gel": 0, "source_url": "https://example.com/synthetic/9"},
+  {"id": 10, "title": "[SYNTHETIC] Coastal Talk Series", "city": "Batumi", "category": "other", "venue": "Synthetic Conference Room", "start": "2026-12-08T15:00:00+04:00", "price_gel": 40, "source_url": "https://example.com/synthetic/10"}
+]

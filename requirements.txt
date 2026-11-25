@@ -1,5 +1,7 @@
 Django
 google-genai
+mcp>=1.2,<2
 pytest
 pytest-django
 python-dotenv
+pyyaml

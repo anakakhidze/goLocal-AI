@@ -1,0 +1,54 @@
+# Golden set for the search_events tool (HW2, anakakhidze).
+# Each case runs through call_tool() in tests/test_tool_golden.py. No model, no key.
+# expect.ids: the exact event ids, in order. expect.error_contains: a substring of the error message.
+cases:
+  - name: free_tbilisi_music
+    kind: normal
+    why: Only free (price 0) Tbilisi music events; the 15 GEL event is excluded.
+    tool: search_events
+    arguments:
+      city: Tbilisi
+      category: music
+      free_only: true
+    expect:
+      ids: [1]
+
+  - name: batumi_limit_two
+    kind: normal
+    why: All Batumi events sorted by start time, cut to the first two.
+    tool: search_events
+    arguments:
+      city: Batumi
+      limit: 2
+    expect:
+      ids: [7, 8]
+
+  - name: tbilisi_under_30_gel_skips_unknown_price
+    kind: normal
+    why: Known prices up to 30 GEL; the unknown-price event (id 4) never matches a price filter.
+    tool: search_events
+    arguments:
+      city: Tbilisi
+      max_price_gel: 30
+      limit: 10
+    expect:
+      ids: [1, 2, 3, 5, 6]
+
+  - name: unknown_city_is_refused
+    kind: bad_input
+    why: A city outside the fixed set must be refused with a message that lists the allowed values.
+    tool: search_events
+    arguments:
+      city: Kutaisi
+    expect:
+      error_contains: "must be"
+
+  - name: smuggled_identity_field_is_refused
+    kind: adversarial
+    why: An identity field added to the arguments must be refused, so the tool never acts for another user.
+    tool: search_events
+    arguments:
+      city: Tbilisi
+      user_id: "u-42"
+    expect:
+      error_contains: "Unexpected field 'user_id'"
