@@ -23,23 +23,24 @@ def _mcp_call(arguments):
     return asyncio.run(mcp.call_tool("search_events", {"request": arguments}))
 
 
-@pytest.mark.parametrize("case", CASES, ids=[c["name"] for c in CASES])
+@pytest.mark.parametrize("case", CASES, ids=[c["id"] for c in CASES])
 def test_both_doors_agree(case):
-    expect = case["expect"]
-    if "error_contains" in expect:
+    if case["expect"] == "refused":
         with pytest.raises(ToolError):
-            call_tool(case["tool"], case["arguments"])
+            call_tool("search_events", case["arguments"])
         with pytest.raises(Exception) as raised:
             _mcp_call(case["arguments"])
         message = str(raised.value)
         assert "Traceback" not in message
-        assert any(key in message for key in case["arguments"]), message
+        # The MCP door's wording comes from the framework; it must still name the offending field.
+        offending = case["error_has"][-1]
+        assert offending in message, message
     else:
-        direct = call_tool(case["tool"], case["arguments"])
+        direct = [event["id"] for event in call_tool("search_events", case["arguments"])]
         content, _structured = _mcp_call(case["arguments"])
         via_mcp = [json.loads(item.text)["id"] for item in content]
-        assert [event["id"] for event in direct] == expect["ids"]
-        assert via_mcp == expect["ids"]
+        assert direct == case["result_has"]["ids"]
+        assert via_mcp == case["result_has"]["ids"]
 
 
 def test_mcp_registers_the_tool_with_exact_fields():

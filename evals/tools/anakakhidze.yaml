@@ -1,54 +1,58 @@
-# Golden set for the search_events tool (HW2, anakakhidze).
-# Each case runs through call_tool() in tests/test_tool_golden.py. No model, no key.
-# expect.ids: the exact event ids, in order. expect.error_contains: a substring of the error message.
+# HW2 tool golden set · search_events · owner: anakakhidze
+# Save as evals/tools/<your-github-username>.yaml. tests/test_tool_golden.py runs it in CI: no model, no key.
+#
+# Each case is one call, exactly as a model would send it:
+#   tool        the tool name in the registry
+#   caller      null: search_events is offered to everyone and needs no identity
+#   arguments   the JSON the model sends
+#   expect      ok       -> result_has: the derived view of the result that must match (here: ids)
+#               refused  -> error_has: phrases that must appear in the error the model reads
+#   why         one line: what this case protects
+#
+# Five cases: 3 normal, 1 bad-input, 1 adversarial.
+tool_owner: anakakhidze
 cases:
-  - name: free_tbilisi_music
-    kind: normal
+  - id: n1
+    type: normal
     why: Only free (price 0) Tbilisi music events; the 15 GEL event is excluded.
     tool: search_events
-    arguments:
-      city: Tbilisi
-      category: music
-      free_only: true
-    expect:
-      ids: [1]
+    caller: null
+    arguments: {city: Tbilisi, category: music, free_only: true}
+    expect: ok
+    result_has: {ids: [1]}
 
-  - name: batumi_limit_two
-    kind: normal
+  - id: n2
+    type: normal
     why: All Batumi events sorted by start time, cut to the first two.
     tool: search_events
-    arguments:
-      city: Batumi
-      limit: 2
-    expect:
-      ids: [7, 8]
+    caller: null
+    arguments: {city: Batumi, limit: 2}
+    expect: ok
+    result_has: {ids: [7, 8]}
 
-  - name: tbilisi_under_30_gel_skips_unknown_price
-    kind: normal
+  - id: n3
+    type: normal
     why: Known prices up to 30 GEL; the unknown-price event (id 4) never matches a price filter.
     tool: search_events
-    arguments:
-      city: Tbilisi
-      max_price_gel: 30
-      limit: 10
-    expect:
-      ids: [1, 2, 3, 5, 6]
+    caller: null
+    arguments: {city: Tbilisi, max_price_gel: 30, limit: 10}
+    expect: ok
+    result_has: {ids: [1, 2, 3, 5, 6]}
 
-  - name: unknown_city_is_refused
-    kind: bad_input
-    why: A city outside the fixed set must be refused with a message that lists the allowed values.
+  - id: b1
+    type: bad-input
+    why: A city outside the fixed set is refused before the tool reads any data.
     tool: search_events
-    arguments:
-      city: Kutaisi
-    expect:
-      error_contains: "must be"
+    caller: null
+    arguments: {city: Kutaisi}
+    expect: refused
+    error_has: [invalid arguments, city]
 
-  - name: smuggled_identity_field_is_refused
-    kind: adversarial
-    why: An identity field added to the arguments must be refused, so the tool never acts for another user.
+  - id: a1
+    type: adversarial
+    why: An identity field added to the arguments is refused, so the tool never acts for another user.
     tool: search_events
-    arguments:
-      city: Tbilisi
-      user_id: "u-42"
-    expect:
-      error_contains: "Unexpected field 'user_id'"
+    caller: null
+    arguments: {city: Tbilisi, user_id: "u-42"}
+    expect: refused
+    error_has: [invalid arguments, user_id]
