@@ -17,7 +17,7 @@ Category = Literal["music", "nightlife", "exhibition", "theatre", "workshop", "t
 
 
 class SearchEventsInput(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="forbid")
 
     city: Literal["Tbilisi"]
     category: Category | None = None
@@ -35,7 +35,7 @@ class SearchEventsInput(BaseModel):
 
 
 class EventOut(BaseModel):
-    model_config = ConfigDict(extra="ignore")
+    model_config = ConfigDict(extra="forbid")
 
     external_id: str
     title: str
