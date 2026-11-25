@@ -20,7 +20,7 @@ cases:
     caller: null
     arguments: {city: Tbilisi, category: music, max_price_gel: 30}
     expect: ok
-    result_has: {ids: [paper-lantern-jazz, sunset-guitar]}
+    result_has: {event_ids: [paper-lantern-jazz, sunset-guitar]}
 
   - id: n2
     type: normal
@@ -29,7 +29,7 @@ cases:
     caller: null
     arguments: {city: Tbilisi, keyword: jazz}
     expect: ok
-    result_has: {ids: [paper-lantern-jazz]}
+    result_has: {event_ids: [paper-lantern-jazz]}
 
   - id: n3
     type: normal
@@ -38,7 +38,7 @@ cases:
     caller: null
     arguments: {city: Tbilisi, start_date: "2026-10-20", end_date: "2026-10-22", limit: 12}
     expect: ok
-    result_has: {ids: [paper-lantern-jazz, rooftop-dance, color-and-light]}
+    result_has: {event_ids: [paper-lantern-jazz, rooftop-dance, color-and-light]}
 
   - id: b1
     type: bad-input

@@ -1,0 +1,6 @@
+# Isolated, offline-testable tool slice; existing homework dependencies stay unchanged.
+mcp==2.3.0
+pydantic>=2.11,<3
+httpx>=0.28,<1
+PyYAML>=6,<7
+pytest>=8,<10

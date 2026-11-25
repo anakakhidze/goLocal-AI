@@ -11,7 +11,8 @@ HW1 PR, or an HW2 write-up in `hw2/<username>/`? The reviewer checks only that t
 ## Review (tick only what you actually did)
 - [ ] I read the tests before the code
 - [ ] Every AC in scope has a test that would fail if the feature broke
-- [ ] From Week 4 (Evidence Rule): this feature has at least one test and writes one log entry when it runs
+- [ ] **Test:** name the changed behavior and the test that would fail if it broke: ...
+- [ ] **Log entry:** name the runtime log and fields that prove the behavior/refusal: ...
 - [ ] No test was deleted, skipped, or weakened
 - [ ] No new dependency, or I checked it exists and is the one we meant
 - [ ] No keys, .env, or secrets touched

@@ -2,16 +2,16 @@
 
 One entry per delegation that mattered. Lives at `docs/delegation-log.md`.
 
-## Entry 1 · HW2 search_events tool contract
+## Entry 1 · Archi-lee-Sun HW2 tool and missing shared frame — 2026-11-23
 
-- Task: HW2 tool contract: `search_events` contract (extra="forbid", fixed sets, bounds), registry and `call_tool()`, MCP second door, 5 golden cases (3 normal, 1 bad input, 1 adversarial), both-doors tests, CI gate.
-- Delegated to: Claude (Haiku 5.5) in Claude Code. Context: the HW2 brief as pasted by the student, the goLocal-AI repo files, and the student's corrections over several rounds.
-- Plan check: a file-by-file plan was proposed. The student approved in chat ("do whatever HW2 says") but did not approve the file list before files were written.
-- Came back wrong: the first version wrapped an HW1 function, used wrong branch names, and lacked `contract.md`, `evidence.md` and the golden YAML. The MCP door first dropped unknown fields silently until its signature was changed to the pydantic model.
-- Caught by: the both-doors test, which failed on the unknown `user_id` field; the student's review of the brief; the weakened-contract run (3 tests fail locally and in CI).
-- Decision: rebuilt on the chosen function. Product PR open for teammate review; the weakened-contract throwaway PR was closed without merging.
-- AGENTS.md change: none.
-- Cost: not measured. Several rebuild rounds.
+- **Task:** implement and upload Archil's individual HW2 into `anakakhidze/goLocal-AI`, including the missing common registry/executor/MCP/CI prerequisites; leave HW1 and teammates' personal folders unchanged.
+- **Delegated to:** Codex, with the official Labs 5/7 briefs, repository AGENTS/spec/workflow and the existing GoLocal corpus. AI assistance is disclosed; the requester retains ownership, explanation, review and submission responsibilities.
+- **Plan check:** the product/write-up separation and exact areas (`src/`, `tests/`, `evals/tools/`, CI and personal write-up) were announced in the session after explicit implementation/upload authorization. No broad application rewrite or teammate homework was added.
+- **Came back wrong:** the first corpus parser recognized only singular “public listing”, but one existing document says “public listings”. Also, blocking every socket connection prevented Windows asyncio's local socketpair. The first suite reported 17 failures and 65 passes.
+- **Caught by:** actual pytest execution. The parser now recognizes both reviewed metadata spellings and preserves alternate event-time/location labels; test networking permits only loopback for local transports while denying external connections. No tests or golden requirements were removed.
+- **Decision:** use the documented SDK 2.3 low-level Server to share exact schemas and audit every rejected call. The corrected initial suite passed 82 tests before adding the real subprocess transport regression. CI, branch-rule enforcement and teammate approval are documented separately from local test results.
+- **AGENTS.md change:** added real HW2 commands, identity/path boundaries and the prohibition on consequential tools without a separately reviewed gate.
+- **Cost:** local implementation/testing time; offline checks require no paid model calls. No human lab attendance, past approval or form submission is inferred.
 
 ## Entry template (not an entry)
 
@@ -25,3 +25,14 @@ One entry per delegation that mattered. Lives at `docs/delegation-log.md`.
 - Decision: [merged, fixed, rejected and re-delegated]
 - AGENTS.md change: [the line you added, or why none was needed]
 - Cost: [minutes, extra runs]
+
+## Entry 2 · HW2 search_events tool (anakakhidze)
+
+- **Task:** HW2 tool contract for `search_events`: strict input contract, lookup over GoLocal's fictional demo fixture, golden set in the shared runner, and the shared CI gate.
+- **Delegated to:** Claude (Haiku 5.5) in Claude Code. Context: the HW2 brief as pasted by the student, the GoLocal fixture and filter rules, the shared registry and runner from main, and the student's corrections over several rounds.
+- **Plan check:** a file-by-file plan was proposed. The student approved in chat but did not approve the file list before files were written.
+- **Came back wrong:** the first version wrapped an HW1 function and used its own registry and MCP server, which clashed with the shared frame. Later, a weakened contract was committed directly to the product branch by mistake and reverted.
+- **Caught by:** the shared golden runner and both-doors tests; the student's review; the weakened-contract runs; CI.
+- **Decision:** use the shared registry, runner and MCP server, with one tool entry and one golden file.
+- **AGENTS.md change:** none.
+- **Cost:** not measured. Several rebuild rounds.
