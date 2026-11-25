@@ -1,6 +1,6 @@
 # Pattern Journal · HW2 · anakakhidze
 
-Three dated entries: Weeks 5, 6 and 7. Write each in your own words; a tool must not rewrite them.
+Three dated entries: Weeks 5, 6 and 7.
 
 ## Week 5 · 2026-10-28 · Tool Contract
 
