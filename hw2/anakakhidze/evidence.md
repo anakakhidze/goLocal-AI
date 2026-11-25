@@ -28,8 +28,8 @@ This shows the tests catch both weakenings locally.
 - **Green run on the current product commit `ae4ff4d`:** https://github.com/anakakhidze/goLocal-AI/actions/runs/45706224737
   Product PR #17, `pull_request` event, conclusion `success`.
 - **Previous green run on `4db1a0f` (the synthetic-data version):** https://github.com/anakakhidze/goLocal-AI/actions/runs/45703332573
-- **Red run (CI failed on the pull request, current contract):** https://github.com/anakakhidze/goLocal-AI/actions/runs/45707180914
-  Throwaway PR #20 (`red-check-anakakhidze-2`, commit `0d6dda2`), with `extra="forbid"` changed to `extra="ignore"` in both models. Job `golden-cases` concluded **failure**. The local weakened check predicts 2 failing tests (the MCP registration check and the refused-call log test); confirm the count in the job log.
+- **Red run (CI failed on the pull request, current contract):** https://github.com/anakakhidze/goLocal-AI/actions/runs/45708853743/job/139537734360
+  Throwaway PR #21 (`red-check-anakakhidze-3`, base `main`), with `extra="forbid"` changed to `extra="ignore"` in both models. Job `golden-cases` concluded **failure**. The local weakened check predicts 2 failing tests (the MCP registration check and the refused-call log test); confirm the count in the job log.
   Note: the merge button was blocked by the missing approval, not by this failing check. Branch protection on `main` requires one approving review but does not yet require the `golden-cases` status check. Until the repo owner adds that check, a failing CI run alone does not block a merge.
 
 ## What the red run taught me
