@@ -16,17 +16,20 @@ Local run, Python 3.14, Windows: `python -m pytest tests -p no:cacheprovider -q`
 ## Gate check: a weakened contract must fail
 
 Run in a scratch copy, not on main. In `src/tools/contract.py` I changed `extra="forbid"` to `extra="ignore"`.
-Result: **3 failed, 9 passed**. The failures were the adversarial case through `call_tool()`, the adversarial
-case through the MCP door, and the MCP registration check (`additionalProperties` is no longer false).
-This shows the tests catch the weakening locally.
+Result: **3 failed, 9 passed**. The failures were `test_golden_case[smuggled_identity_field_is_refused]`,
+`test_both_doors_agree[smuggled_identity_field_is_refused]`, and `test_mcp_registers_the_tool_with_exact_fields`
+(`additionalProperties` is no longer false). This shows the tests catch the weakening locally.
 
 ## CI runs (GitHub Actions, workflow `HW2 tool contract`)
 
-- **Red run that blocked a merge:** _to be filled in_ (link: ...). Steps: on a throwaway branch,
-  weaken the contract as above, push, open a pull request, watch CI turn red, copy the link here,
-  close the pull request without merging, and delete the branch.
-- **Green run on the real product pull request:** _to be filled in_ (link: ...).
+- **Red run that blocked a merge:** https://github.com/anakakhidze/goLocal-AI/actions/runs/45698715645/job/139502851273
+  Throwaway PR #18 (`red-check-anakakhidze`, weakened contract). Three tests failed, and GitHub showed `merging is blocked`.
+- **Green run on the real product pull request:** https://github.com/anakakhidze/goLocal-AI/actions/runs/45694038272/job/139486642833
+  Product PR #17 (`slice-hw2-anakakhidze`). The `golden-cases` job passed.
 
 ## What the red run taught me
 
-_To be written after the red run: one paragraph in my own words._
+Weakening `extra="forbid"` to `extra="ignore"` let the unknown `user_id` field through instead of refusing it,
+and CI caught it on the pull request. The same change also broke the MCP registration check, which compares the
+input schema to `additionalProperties: false`. A rule that only exists on paper does nothing; the test that
+enforces it has to run on every pull request and block the merge.
