@@ -22,8 +22,9 @@ Result: **3 failed, 9 passed**. The failures were `test_golden_case[smuggled_ide
 
 ## CI runs (GitHub Actions, workflow `HW2 tool contract`)
 
-- **Red run that blocked a merge:** https://github.com/anakakhidze/goLocal-AI/actions/runs/45698715645/job/139502851273
-  Throwaway PR #18 (`red-check-anakakhidze`, weakened contract). Three tests failed, and GitHub showed `merging is blocked`.
+- **Red run (CI failed on the pull request):** https://github.com/anakakhidze/goLocal-AI/actions/runs/45698715645/job/139502851273
+  Throwaway PR #18 (`red-check-anakakhidze`, weakened contract). Three tests failed.
+  Note: the merge button was blocked by the missing approval, not by this failing check. Branch protection on `main` requires one approving review but does not yet require the `golden-cases` status check. Until the repo owner adds that required check, a failing CI run alone does not block a merge.
 - **Green run on the real product pull request:** https://github.com/anakakhidze/goLocal-AI/actions/runs/45694038272/job/139486642833
   Product PR #17 (`slice-hw2-anakakhidze`). The `golden-cases` job passed.
 
