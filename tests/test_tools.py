@@ -64,6 +64,6 @@ def test_corrupt_data_fails_closed_without_a_path_or_traceback(tmp_path, content
 
 
 def test_registry_exposes_only_public_reads():
-    assert set(tools.TOOLS) == {"list_events", "get_event_details"}
+    assert set(tools.TOOLS) == {"list_events", "get_event_details", "search_events"}
     assert tools.tools_for(None) == tools.tools_for("caller-a") == tools.tools_for("caller-b")
     assert all(tool.read_only for tool in tools.TOOLS.values())

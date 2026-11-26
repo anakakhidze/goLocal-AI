@@ -1,0 +1,59 @@
+# HW2 tool golden set · search_events · owner: anakakhidze
+# Save as evals/tools/<your-github-username>.yaml. tests/test_tool_golden.py runs it in CI: no model, no key.
+#
+# Each case is one call, exactly as a model would send it:
+#   tool        the tool name in the registry
+#   caller      null: search_events is offered to everyone and needs no identity
+#   arguments   the JSON the model sends
+#   expect      ok       -> result_has: the derived view of the result that must match (here: ids, in order)
+#               refused  -> error_has: phrases that must appear in the error the model reads
+#   why         one line: what this case protects
+#
+# Expected ids were checked by hand against data/demo_events.json (GoLocal's fictional demo fixture).
+# Five cases: 3 normal, 1 bad-input, 1 adversarial.
+tool_owner: anakakhidze
+cases:
+  - id: n1
+    type: normal
+    why: "Music events up to 30 GEL: the 20 GEL event and the free event match; the rest are not music."
+    tool: search_events
+    caller: null
+    arguments: {city: Tbilisi, category: music, max_price_gel: 30}
+    expect: ok
+    result_has: {event_ids: [paper-lantern-jazz, sunset-guitar]}
+
+  - id: n2
+    type: normal
+    why: "Keyword match is case-insensitive over title and description; only one fixture event mentions jazz."
+    tool: search_events
+    caller: null
+    arguments: {city: Tbilisi, keyword: jazz}
+    expect: ok
+    result_has: {event_ids: [paper-lantern-jazz]}
+
+  - id: n3
+    type: normal
+    why: "A date window is inclusive by local date; events on the 20th, 21st and 22nd of October match, in start order."
+    tool: search_events
+    caller: null
+    arguments: {city: Tbilisi, start_date: "2026-10-20", end_date: "2026-10-22", limit: 12}
+    expect: ok
+    result_has: {event_ids: [paper-lantern-jazz, rooftop-dance, color-and-light]}
+
+  - id: b1
+    type: bad-input
+    why: "A city outside the fixed set is refused before any event is read."
+    tool: search_events
+    caller: null
+    arguments: {city: Batumi}
+    expect: refused
+    error_has: [invalid arguments, city]
+
+  - id: a1
+    type: adversarial
+    why: "A SQL injection string smuggled into keyword is refused by the pattern, so no query text reaches the data lookup."
+    tool: search_events
+    caller: null
+    arguments: {city: Tbilisi, keyword: "x' OR '1'='1"}
+    expect: refused
+    error_has: [invalid arguments, keyword]

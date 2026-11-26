@@ -6,6 +6,7 @@ from pydantic import BaseModel, ConfigDict
 
 from .catalog import CatalogError, EventDetails, load_catalog
 from .contracts import Contract, GetEventDetails, ListEvents
+from .search_events import SearchEvents, search_events
 
 
 class ToolFailure(Exception):
@@ -66,6 +67,7 @@ class Tool:
 TOOLS = {t.name: t for t in (
     Tool("list_events", ListEvents, list_events),  # common frame, not Archil's HW2
     Tool("get_event_details", GetEventDetails, get_event_details),  # Archi-lee-Sun's HW2
+    Tool("search_events", SearchEvents, search_events),  # anakakhidze's HW2
 )}
 
 
