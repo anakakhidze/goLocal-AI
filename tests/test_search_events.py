@@ -10,9 +10,20 @@ def run(**arguments):
     return search_events(SearchEvents(city="Tbilisi", **arguments)).event_ids
 
 
-def test_budget_excludes_unknown_prices():
-    # 'mystery-activity' and 'robot-demo' have unknown prices; they never match a price limit.
+def test_budget_excludes_unknown_prices(monkeypatch):
+    # Fixture events with unknown prices also lack a currency, so add one that has GEL but no price.
+    import src.search_events as module
+    real_load = module._load
+
+    def with_unknown_gel_price():
+        records = real_load()
+        records.append(dict(records[0], external_id="gel-unknown-price", price_min=None, price_max=None,
+                            currency="GEL", day_offset=1))
+        return records
+
+    monkeypatch.setattr(module, "_load", with_unknown_gel_price)
     ids = run(max_price_gel=500, limit=12)
+    assert "gel-unknown-price" not in ids
     assert "mystery-activity" not in ids and "robot-demo" not in ids
 
 
