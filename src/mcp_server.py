@@ -7,7 +7,7 @@ from mcp.types import CallToolResult, ListToolsResult, TextContent, Tool as MCPT
 
 from .act import call_tool
 from .catalog import EventDetails
-from .tools import EventList, tools_for
+from .tools import EventList, KindEventList, tools_for
 
 
 def _caller():
@@ -19,7 +19,8 @@ async def list_mcp_tools(_context, _params):
     return ListToolsResult(tools=[MCPTool(
         name=tool.name, description=tool.args.__doc__.strip(),
         input_schema=tool.args.model_json_schema(),
-        output_schema=(EventDetails if tool.name == "get_event_details" else EventList).model_json_schema(),
+        output_schema=(EventDetails if tool.name == "get_event_details" else
+                       KindEventList if tool.name == "find_events_by_kind" else EventList).model_json_schema(),
         annotations=ToolAnnotations(read_only_hint=True, destructive_hint=False,
                                     idempotent_hint=True, open_world_hint=False),
     ) for tool in tools_for(_caller()).values()])

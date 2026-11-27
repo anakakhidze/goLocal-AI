@@ -1,0 +1,50 @@
+tool_owner: ninotsutskiridze30-svg
+cases:
+  - id: n1
+    type: normal
+    why: Event kind with limit three returns the first three matching catalog records and no other kind.
+    tool: find_events_by_kind
+    caller: null
+    arguments: {kind: event, limit: 3}
+    expect: ok
+    result_has:
+      events:
+        - {id: echo-halloween, title: ECHO EVENTS HALLOWEEN AT KING DAVID, kind: event, source_url: "https://tkt.ge/en/Show/35438", snapshot_date: "2026-10-19"}
+        - {id: erisioni, title: "ერისიონი — ქართული საგანძური", kind: event, source_url: "https://biletebi.ge/concerts/erisioni", snapshot_date: "2026-10-19"}
+        - {id: golden-harlequin, title: "ოქროს არლეკინი — Golden Harlequin circus festival", kind: event, source_url: "https://biletebi.ge/circus/golden-harlequin", snapshot_date: "2026-10-19"}
+  - id: n2
+    type: normal
+    why: The venue kind returns the sole venue record, Digomi Olympic Pool, rather than an event.
+    tool: find_events_by_kind
+    caller: null
+    arguments: {kind: venue}
+    expect: ok
+    result_has:
+      events:
+        - {id: digomi-olympic-pool, title: "დიღმის ოლიმპიური აუზი — Digomi Olympic Pool", kind: venue, source_url: "https://biletebi.ge/fitness/olympic-pool", snapshot_date: "2026-10-19"}
+  - id: n3
+    type: normal
+    why: A repeated event query with limit one gives the same deterministic first match and respects the limit.
+    tool: find_events_by_kind
+    caller: test-user-a
+    arguments: {kind: event, limit: 1}
+    expect: ok
+    result_has:
+      events:
+        - {id: echo-halloween, title: ECHO EVENTS HALLOWEEN AT KING DAVID, kind: event, source_url: "https://tkt.ge/en/Show/35438", snapshot_date: "2026-10-19"}
+  - id: b1
+    type: bad-input
+    why: A phrase outside the two catalog kinds is refused by schema validation.
+    tool: find_events_by_kind
+    caller: null
+    arguments: {kind: "concert tickets"}
+    expect: refused
+    error_has: [invalid arguments, kind]
+  - id: a1
+    type: adversarial
+    why: An extra user identity field must be rejected before catalog access and cannot select another account.
+    tool: find_events_by_kind
+    caller: null
+    arguments: {kind: event, user_id: victim}
+    expect: refused
+    error_has: [invalid arguments, user_id]
