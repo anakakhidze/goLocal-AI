@@ -5,7 +5,7 @@ import pytest
 
 from src import catalog, tools
 from src.catalog import CatalogError, load_catalog
-from src.contracts import GetEventDetails, ListEvents
+from src.contracts import FindEventsByKind, GetEventDetails, ListEvents
 
 
 def test_real_catalog_is_source_backed_and_explicitly_not_live():
@@ -64,6 +64,23 @@ def test_corrupt_data_fails_closed_without_a_path_or_traceback(tmp_path, content
 
 
 def test_registry_exposes_only_public_reads():
-    assert set(tools.TOOLS) == {"list_events", "get_event_details", "search_events"}
+    assert set(tools.TOOLS) == {"list_events", "get_event_details", "search_events", "find_events_by_kind"}
     assert tools.tools_for(None) == tools.tools_for("caller-a") == tools.tools_for("caller-b")
     assert all(tool.read_only for tool in tools.TOOLS.values())
+
+
+def test_find_events_by_kind_returns_only_the_allowlisted_summaries():
+    result = tools.find_events_by_kind(FindEventsByKind(kind="event", limit=3))
+    assert [event.id for event in result.events] == ["echo-halloween", "erisioni", "golden-harlequin"]
+    assert all(set(event.model_dump()) == {"id", "title", "kind", "source_url", "snapshot_date"}
+               and event.kind == "event" for event in result.events)
+    assert "details" not in result.model_dump_json().casefold()
+
+
+def test_find_events_by_kind_venue_is_repeatable_and_limit_is_exact():
+    args = FindEventsByKind(kind="venue", limit=10)
+    first = tools.find_events_by_kind(args)
+    assert first == tools.find_events_by_kind(args)
+    assert [event.id for event in first.events] == ["digomi-olympic-pool"]
+    limited = tools.find_events_by_kind(FindEventsByKind(kind="event", limit=1))
+    assert [event.id for event in limited.events] == ["echo-halloween"]

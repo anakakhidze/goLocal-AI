@@ -25,6 +25,28 @@ def test_valid_call_returns_a_typed_result_and_one_private_audit_line():
     assert "private-user-a" not in lines[0] and "hardhell" not in lines[0]
 
 
+def test_find_events_by_kind_audit_line_contains_metadata_only():
+    out = call({"kind": "event", "limit": 1}, name="find_events_by_kind")
+    assert out["ok"]
+    lines = Path(os.environ["GOLOCAL_TOOL_LOG"]).read_text().splitlines()
+    assert len(lines) == 1
+    record = json.loads(lines[0])
+    assert record["tool"] == "find_events_by_kind" and record["latency_ms"] >= 0
+    assert set(record) == {"timestamp_utc", "tool", "caller_hash", "ok", "error_code", "latency_ms"}
+    assert "echo-halloween" not in lines[0] and "source_url" not in lines[0]
+
+
+def test_find_events_by_kind_adversarial_extra_user_field_never_calls_function():
+    reached = []
+    spy = replace(TOOLS["find_events_by_kind"], run=lambda args: reached.append(args))
+    out = call({"kind": "event", "limit": 1, "user_id": "other-account"},
+               name="find_events_by_kind", allowed={"find_events_by_kind": spy})
+    assert not out["ok"] and out["error_code"] == "invalid_arguments"
+    assert reached == []
+    line = Path(os.environ["GOLOCAL_TOOL_LOG"]).read_text()
+    assert "other-account" not in line
+
+
 @pytest.mark.parametrize("arguments", [{"event_id": "../../.env"}, {"event_id": "hardhell", "user_id": "victim"},
                                         {"event_id": 2}, {"event_id": "a" * 65}])
 def test_bad_arguments_never_reach_the_function(arguments):

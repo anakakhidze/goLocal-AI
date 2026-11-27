@@ -10,7 +10,7 @@ import pytest
 
 from src.act import call_tool
 from src.mcp_server import mcp
-from src.tools import TOOLS, tools_for
+from src.tools import KindEventList, TOOLS, tools_for
 
 
 async def listing():
@@ -38,6 +38,18 @@ def test_success_matches_the_real_executor():
     direct = call_tool({"name": "get_event_details", "arguments": json.dumps(arguments)}, tools_for(None), None)
     result = asyncio.run(invoke("get_event_details", arguments))
     assert not result.is_error and result.structured_content == direct["result"]
+
+
+def test_find_events_by_kind_matches_function_calling_and_mcp_doors():
+    arguments = {"kind": "event", "limit": 3}
+    direct = call_tool({"name": "find_events_by_kind", "arguments": json.dumps(arguments)},
+                       tools_for(None), None)
+    result = asyncio.run(invoke("find_events_by_kind", arguments))
+    assert direct["ok"] and not result.is_error
+    assert result.structured_content == direct["result"]
+    assert set(result.structured_content["events"][0]) == {"id", "title", "kind", "source_url", "snapshot_date"}
+    registered = asyncio.run(listing())["find_events_by_kind"]
+    assert registered.output_schema == KindEventList.model_json_schema()
 
 
 @pytest.mark.parametrize("arguments", [{"event_id": "../../.env"}, {"event_id": "hardhell", "user_id": "victim"},
