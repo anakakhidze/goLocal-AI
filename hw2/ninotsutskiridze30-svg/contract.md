@@ -1,7 +1,7 @@
 # HW2 Tool Contract — `find_events_by_kind`
 
 **Owner:** `ninotsutskiridze30-svg` · **Team repo:** [anakakhidze/goLocal-AI](https://github.com/anakakhidze/goLocal-AI)  
-**Code on `main` after merge:** [`EventKind`](../../src/contracts.py#L12) and [`FindEventsByKind`](../../src/contracts.py#L25); [`KindEventSummary`](../../src/tools.py#L30), [`find_events_by_kind`](../../src/tools.py#L61), and [`TOOLS` registry](../../src/tools.py#L93); MCP listing and call handlers (`../../src/mcp_server.py#L18 and #L29). **Product PR:** TODO · **Merged commit:** TODO.
+**Code on `main`:** [`EventKind`](../../src/contracts.py#L12) and [`FindEventsByKind`](../../src/contracts.py#L25); [`KindEventSummary`](../../src/tools.py#L30), [`find_events_by_kind`](../../src/tools.py#L61), and [`TOOLS` registry](../../src/tools.py#L93); MCP listing and call handlers (`../../src/mcp_server.py#L18 and #L29). **Product PR:** [#24](https://github.com/anakakhidze/goLocal-AI/pull/24) - **Merged commit:** `2ad9db5134ff8d1f498b47f09141cf943f6f4b61`.
 
 **For the model (docstring):** “Return up to `limit` read-only catalog summaries for the exact requested kind.”
 
