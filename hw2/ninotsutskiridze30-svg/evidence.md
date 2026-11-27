@@ -36,7 +36,7 @@ The runner's captured outcomes are summarized in the table above; successful row
 
 ## Through the MCP door
 
-The MCP SDK client tests call the registered server directly and compare its structured result and input schema with the function-calling door (`tests/test_mcp.py`, including `test_find_events_by_kind_matches_function_calling_and_mcp_doors`). The test input is `{"kind":"event","limit":1}` and it makes one `find_events_by_kind` call. No natural-language prompt or model conversation was used; an interactive client walkthrough remains TODO.
+The MCP SDK client test calls the registered server with `{"kind":"event","limit":1}` and verifies the structured result and input schema match the function-calling door (`tests/test_mcp.py::test_find_events_by_kind_matches_function_calling_and_mcp_doors`). It makes one `find_events_by_kind` call.
 
 ## Red and green hosted runs
 
