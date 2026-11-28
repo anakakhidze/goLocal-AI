@@ -40,8 +40,10 @@ The MCP SDK client test calls the registered server with `{"kind":"event","limit
 
 ## Red and green hosted runs
 
-- **My product PR:** [#24](https://github.com/anakakhidze/goLocal-AI/pull/24), merged. **Hosted green run:** [CI run 46027902599](https://github.com/anakakhidze/goLocal-AI/actions/runs/46027902599), job `test` succeeded. Actual pytest output: `115 passed in 1.88s`; HW1 regression: `13 passed in 0.18s`.
-- **My throwaway red PR:** TODO Â· **red run link:** TODO Â· **branch/mutation:** TODO Â· **failed test names:** TODO Â· **exact merge-button text:** TODO.
-- **What my red run taught me:** TODO, to fill only after my own red run. Do not treat a teammate's red run as mine.
+- **My product PR:** [#24](https://github.com/anakakhidze/goLocal-AI/pull/24), merged. **Hosted green run:** [CI run 46027902599](https://github.com/anakakhidze/goLocal-AI/actions/runs/46027902599), job test succeeded. Actual pytest output: 115 passed in 1.88s; HW1 regression: 13 passed in 0.18s.
+- **My throwaway branch:** red-23-hw2-ninotsutskiridze30-svg, commit a355302; the mutation added "concert tickets" to the EventKind literal.
+- **Hosted red push run:** [CI run 46058681548](https://github.com/anakakhidze/goLocal-AI/actions/runs/46058681548), job test failed. Actual output: 3 failed, 112 passed in 1.61s. Failed tests: test_find_kind_enum_matches_kinds_produced_for_all_catalog_files; test_find_events_by_kind_contract_rejects_unknown_or_out_of_range_inputs[payload0]; test_tool_golden_case[ninotsutskiridze30-svg:b1].
+- **PR and merge-blocking proof:** No red PR was opened, so there was no merge button or merge-blocked message. This push-triggered run proves the tests catch the weakened contract, but does not prove a failing required check blocks a PR merge.
+- **What the red run taught me:** Adding "concert tickets" made the invalid b1 value pass input validation and exposed a mismatch between the enum and the 13 catalog records. The golden case and catalog-drift test both caught the weakened contract. The push run alone did not test GitHub's merge gate.
 
-Teammate evidence records that both earlier HW2 red runs failed tests, but each also documented that `test` was not then required by branch protection, so a red check was not proven to block merge. Ana must enable the required `test` status check; I must run my own throwaway red PR under that rule and capture what GitHub actually shows. The product PR number and green run above are verified. No red-run result is claimed until my own throwaway PR runs and is shown to block merging.
+The product PR number and green run above are verified. The repository ruleset requires the test status check, but I did not open a red PR, so merge blocking was not observed.
