@@ -1,4 +1,4 @@
-# Delegation log · [PENDING: product name]
+# Delegation log · goLocal-AI
 
 One entry per delegation that mattered. Lives at `docs/delegation-log.md`.
 
@@ -42,8 +42,8 @@ One entry per delegation that mattered. Lives at `docs/delegation-log.md`.
 - **Task:** wrap the catalog's event/venue kind filter as a read-only MCP tool with a closed contract, five CI golden cases, a metadata-only audit trail, and a separate personal write-up.
 - **Delegated to:** Codex, with the Lab 5 brief and examples, Archi-lee-Sun's HW2 files as a shape reference, current repository rules/tests/CI, and all 13 curated catalog files.
 - **Plan check:** Nino approved the revised file-level plan for issue #23 and added the exact enum, golden scenarios, and spy-test requirements before implementation.
-- **Came back wrong:** TODO (Nino: fill in what came back wrong, or record what you checked if nothing did).
-- **Caught by:** local full suite passed (115 tests), including the spy and MCP parity checks; the offline golden runner passed all five cases. No failed golden case was removed or weakened.
+- **Came back wrong:** the first write-up draft was placed in a separate `goLocal-AI-writeup` location instead of the team repo's required `goLocal-AI/hw2/ninotsutskiridze30-svg/` folder.
+- **Caught by:** Nino checked the primary team repo, noticed the write-up was missing there, and redirected the files into the required folder. The final product implementation was checked with the full local test suite (115 passed) and the offline golden runner (5/5 passed); no golden case was removed or weakened.
 - **Decision:** use the catalog's derived `Literal["event", "venue"]` values; return only id, title, kind, source URL, and snapshot date. No source text or identity input is exposed.
 - **AGENTS.md change:** none.
-- **Cost:** no live source or model calls. PR and hosted red/green CI evidence remain TODO until performed.
+- **Cost:** not timed; no live source or model calls. Product PR #24 merged and its hosted green run succeeded; my throwaway red-run proof remains pending.
